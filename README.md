@@ -1,2 +1,2 @@
 # Unredactor
-we will ry to predict the redacted names in the document
+we will try to predict the redacted names in the document
