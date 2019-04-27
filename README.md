@@ -18,6 +18,7 @@ Author
 **Venkata Subbaraju Sagi**
 
 All known Bugs and fixes can be sent to subbaraju.v@ou.edu
+
 Packages required for the project : nltk, DictVectorizer, numpy, sent_tokenize, word_tokenize,ne_chunk
 
 -------
