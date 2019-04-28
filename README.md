@@ -64,21 +64,7 @@ we return these entites
 
 
 3 . **createdb()*
-The createdb() function creates an SQLite database file named normanpd.db and inserts a table with the schema below.
-```
-CREATE TABLE arrests 
-(
-    arrest_time TEXT,  
-    case_number TEXT,
-    arrest_location TEXT,
-    offense TEXT,
-    arrestee_name TEXT,
-    arrestee_birthday TEXT,
-    arrestee_address TEXT,
-    status TEXT,
-    officer TEXT
-)
-````
+
 Note, all the columns correspond directly to the columns in the arrest pdfs. The arrest address contains information from the arrestee address, city, state, and zip code. 
 
 
@@ -93,32 +79,13 @@ The status(db) function prints to standard out, a random row from the database
 ----
 How To run this 
 --
-To run the file you  need to pass the command line as follows:
 
-python main.py --arrests "url link"
-
-`python main.py --arrests "http://normanpd.normanok.gov/filebrowser_download/657/2019-02-14%20Daily%20Arrest%20Summary.pdf"
-
-expected output
-
-1/22/2019 20:13þ2019-00005814þ811 E MAIN STþWARRANT-COUNTYþJIMMY GARRETT DYEþ6/12/2000þ811 E MAIN ST Norman  OK  73071 þFDBDC (Jail) þ1816 - Ross;
-
-check the thorn character in between each fields
 
 ---
 
 List of external links that I used for help
 --
 
-https://medium.com/@CharlesBordet/how-to-extract-and-clean-data-from-pdf-files-in-r-da11964e252e. gave me insights on how to extract the data from a pdf.
-
-https://docs.python.org/3/howto/regex.html,  this explains in detail of regular expressions. This documentation came to my rescue while I am wrangling the data and while writing specific regular expressions to clean the data.
-
-http://www.sqlitetutorial.net/sqlite-python/creating-database/ , I never used SQLlite before this link gave me moreinformation on creating the data base and the way to push the values to the database.
-
-https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf, this helped in detailing my README.md structure.
-
-https://www.geeksforgeeks.org/list-methods-in-python-set-2-del-remove-sort-insert-pop-extend/, helped with commands to remove specific values from my list.
 
 -------
 **Assumptions/Bugs**
