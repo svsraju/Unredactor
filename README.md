@@ -32,32 +32,36 @@ I have used Sypder IDE for running the python code, you will have to change the 
 Description of Functions Used
 ---
 I have divided the complete code into three sections, first section takes all text files from test folder and trains our model,
-second section is for getting the names from the test folder.
-third section redacts the test folder data, and we predict the names that arr redacted using the model from first section.
+Second section is for getting the names from the test folder.
+Third section redacts the test folder data, and we predict the names that are redacted using the model from first section.
 
 Functions
-Section1
+
+Section 1:
+
 
 1 . **doextraction(glob_text):**
 
-The function fetchincidents() takes url as input parameters, it uses the python urllib.request library to grab one of the pdfs for the norman police report webpage.
+The function doextraction(glob_text), uses glob to extract all the text files present in the given folder. It takes the folder location as input.once a file is extracted we open it read mode and pass that file to get_entity(text) funcion. we call get_entity function inside this function which return us complete dictonary of features.
 
 
- 2 .  **extractincidents(url)**
+ 2 .  **get_entity(text)**
 
-The function extractincidents() takes  parameters retured froom fetchIncidents  and it reads data from the pdf files and extracts the incidents. The each incident includes a **date/time, case number, arrest location, offense, arrestee address, status, and officer**. A city, state, and zip code will typical be available if the arrested person(s) is not homeless or transient. 
+The function get_entity(text) takes the texted file that is open in read mode. once the text file is passed, we tokenize the text and try to get all the the 'Person' entities from this text file.
 
-To extract the data from the pdf files, use the PyPdf2.PdfFileReader class. It will allow you to extract pages and pdf file and search for the rows. Extract each row and add it to a list.
+our main intention is to train our model using the dataset, so we need to extract features that we will be using to train our classification model.
 
-This function can return a list of rows so another function can easily insert the data into a database
+I have extracted following features:
+```
+i) total names in the document
+ii)Length of each name
+iii)spaces beween names
+iv)total word count in the document
+```
 
-while extracting the data from the PDF page, I faced some challenges.
+one we extract all the features, I have created a list of dictonaries, where each dictonary has all features along with the name associate with it, and the list containes dictonaries of the names we extract from the text files.
+we return these entites
 
-firstly, i need to split every row as a seperate list, so that I can have more clarity on the values which are getting pushed. Every row in the page ends with ';',except the first row, so I have to insert it manually and only then could split it.
-
-second challenge was of multi line values, ideally every column was seperated by a '\n', but if same column had multiple lines, then those all lines had '\n' seperating them. So if you seperate these values with '\n', we might end up pushing wrong text. we need to check this multi lines first.
-
-More, the extracted data , had many unncessary text, which needs to be removed.
 
 3 . **createdb()*
 The createdb() function creates an SQLite database file named normanpd.db and inserts a table with the schema below.
