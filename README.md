@@ -80,6 +80,7 @@ classifier2.fit(feature_array, target_variable)
 
 ```
 This classification model will be used while we try to predict the names in the redacted document.
+I have trained my model and saved it, You can find it along with other files. You will have to save it and then load it from your machine to use it.
 
 I have combined the redaction of names in the document and extracting features from the redacted document in the same function, which covers our section two and three.
 
