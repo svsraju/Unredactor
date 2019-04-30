@@ -101,13 +101,6 @@ so now we have the features from our test set, we use DictVectorization again on
 ```
 predicted_names = loaded_model.predict(feature_array_test)
 ```
-----
-How To run this 
---
-
-
----
-
 List of external links that I used for help
 --
 
@@ -125,10 +118,24 @@ https://www.geeksforgeeks.org/get-synonymsantonyms-nltk-wordnet-python/
 --
 
 ```
-while extracting the redacted names I have used following regex, which is not able to extract all the redacted names
+1) while extracting the redacted names I have used following regex, 
+
 \█+\s?\██\s?\█+\D█+
 
-Due to this non extraction, The total names are different than the extracted redacted names, which will make it difficult to compare the predicted results with actual results.
+which could not to extract all the redacted names.
+
+Due to this non extraction:
+The total names are different than the extracted redacted names, which will make it difficult to compare the predicted results with actual results.This is a bug in the code I have provided.
+
+2)I have assumed that 4 features which I have discussed earlier gives us better results.
+So I have choosen only those 4 features but we can always add other features.
+
+3)I am assuming you will be running the program in your local machine.
+I assume that you will can give the text file location directly.
+
+4) Predicted names are too far from the actual names, But since my idea is to check the model working I convinced myself on it.
+
+5)I am not saving the redacted files in any location, I have shown the process in my previous project, you can check that if you desire to save your redacted files.
 
 ```
 
