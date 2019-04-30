@@ -111,19 +111,26 @@ How To run this
 List of external links that I used for help
 --
 
+https://www.digitalocean.com/community/tutorials/how-to-handle-plain-text-files-in-python-3 # understanding the basics of text file
+https://stackoverflow.com/questions/35672809/how-to-read-a-list-of-txt-files-in-a-folder-in-python #used for taking all text files in the current folder
+https://docs.python.org/2/library/logging.html
+https://medium.com/@acrosson/extracting-names-emails-and-phone-numbers-5d576354baa #extracting the data and facing issues for installing required packages
+https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da
+https://stackoverflow.com/questions/31088509/identifying-dates-in-strings-using-nltk
+https://stackoverflow.com/questions/3868753/find-phone-numbers-in-python-script?utm_source=zapier.com&utm_medium=referral&utm_campaign=zapier # for finding phone numbers
+https://www.geeksforgeeks.org/get-synonymsantonyms-nltk-wordnet-python/
 
 -------
 **Assumptions/Bugs**
 --
 
 ```
-I have assumed that the page have only 12 columns, out of which the data is missing only from columns 7,8,9. If there is a missing value in different column or number of columns are more than 12 the code might not give desired results.
+while extracting the redacted names I have used following regex, which is not able to extract all the redacted names
+\█+\s?\██\s?\█+\D█+
 
-To clean the data and to get desired formatting, you will see me using hard coding in some cases, like combing multi lined string values and removing space in between them, and adding some special characters and split the text using that character. So the code can handle only those cases.
+Due to this non extraction, The total names are different than the extracted redacted names, which will make it difficult to compare the predicted results with actual results.
 
-The code requires manual input from the user, failing to give that might not give you any output, so I assume you know that condition.
 ```
-------
 
 ***   Thankyou for checking ,Hope this help you in your work!***
 
