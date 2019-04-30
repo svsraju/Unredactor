@@ -42,7 +42,7 @@ Section 1:
 
 1 . **doextraction(glob_text):**
 
-The function doextraction(glob_text), uses glob to extract all the text files present in the given folder. It takes the folder location as input.once a file is extracted we open it read mode and pass that file to get_entity(text) funcion. we call get_entity function inside this function which return us complete dictonary of features.
+The function doextraction(glob_text), uses glob to extract all the text files present in the given folder. It takes the folder location as input.once a file is extracted we open it read mode and pass that file to get_entity(text) function. We call get_entity function inside this function which return us complete dictonary of features.
 
 
  2 .  **get_entity(text)**
@@ -59,17 +59,48 @@ iii)spaces beween names
 iv)total word count in the document
 ```
 
-one we extract all the features, I have created a list of dictonaries, where each dictonary has all features along with the name associate with it, and the list containes dictonaries of the names we extract from the text files.
-we return these entites
+one we extract all the features, I have created a list of dictionaries, where each dictionary has all features along with the name associate with it, and the list containes dictonaries of the names we extract from the text files.
+We return these entites and actual names from this function.
+
+Once we have these functions ready, we seperate our entities in to feature vector and target vector, to make it ready for training.
+
+Since my feature vector is a dictionary, I have used DictVecorizer package to convert this into vectors.
+
+```
+DV = DictVectorizer(sparse = False)  
+    
+feature_array = DV.fit_transform(feature_array
+```
+After the conversion, I have trained the dataset with GuassianNaivebaise classifier, 
+```
+
+from sklearn.naive_bayes import GaussianNB
+classifier2 = GaussianNB()
+classifier2.fit(feature_array, target_variable)
+
+```
+This classification model will be used while we try to predict the names in the redacted document.
+
+I have combined the redaction of names in the document and extracting features from the redacted document in the same function, which covers our section two and three.
+
+Section 2 and Section 3
+
+3 . **doextraction_test(glob_text):**
+It is similar to the doextraction(glob_text) function, it does similar function.
 
 
-3 . **createdb()*
 
-Note, all the columns correspond directly to the columns in the arrest pdfs. The arrest address contains information from the arrestee address, city, state, and zip code. 
+4 . **get_entity_test(text):**
+The function is caled inside doextraction_test(glob_text), we pass each text file into it. once we pass firstly the person names are redacted in the documnet, and we use regex to extract the redacted names. Once we have these names we try to get features from these redacted names. Main point here is to check that you extract the same features which you used for training. Once features are extracted we return these features.
+
+we call the function by passing test data text files, which gives us features associated with the test data.
+
+so now we have the features from our test set, we use DictVectorization again on this and pass that feature matrix into our model and predict the names.
 
 
-4 . **populatedb**
-The function populatedb(db, incidents) function takes the rows created in the extractincidents() function and adds it to the normanpd.db database.
+```
+predicted_names = loaded_model.predict(feature_array_test)
+```
 
 
 5 . **status(db)**
