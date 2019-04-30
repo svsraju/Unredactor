@@ -7,12 +7,9 @@ Created on Tue Apr 16 17:38:07 2019
 
 import glob
 import io
-import os
-import pdb
-import sys
 import numpy as np
+import re
 
-import nltk
 from nltk import sent_tokenize
 from nltk import word_tokenize
 from nltk import pos_tag
@@ -38,9 +35,11 @@ def get_entity(text):
     file=""
     file=text
     for name in person_names:
-        file=file.replace(name,len(name)*"█")
-        count=file.count("█")
-    
+        for c in name:
+            if c ==" ":
+                x = name.split()
+                for i in range(len(x)):
+                    file=file.replace(x[i],len(x[i])*"█")
     
     feature_list = []
     for name in person_names:
@@ -51,7 +50,7 @@ def get_entity(text):
             if c ==" ":
                 space_count = space_count + 1
           
-        feature_dict = {'person_name': name,'name_length' : name_length,'spacing':space_count,'redacted_len': count, 'words_count': word_count}
+        feature_dict = {'person_name': name,'total_names': len(person_names) ,'name_length' : name_length,'spacing':space_count, 'words_count': word_count}
 
         feature_list.append(feature_dict)
     
@@ -72,24 +71,16 @@ def doextraction(glob_text):
                 
    
     return all_entities     
-            
-            
-
-
-doextraction('*.txt')   
-
-
-
+                        
 
 ######################## Train ################
 # creating the training dataset, from the above dictionary
 
 feature_array = []
 target_variable = []
-full_features = doextraction('*.txt')
+full_features = doextraction('C:\\Users\\dvsnv\\Desktop\\OU_Material\\Semester 2\\Text analytics\\train\\Pos\\*.txt')
 
 for i in full_features:
-    target_variable.append(i['person_name'])
     del i['person_name']
     feature_array.append(i)
  
@@ -109,10 +100,15 @@ from sklearn.naive_bayes import GaussianNB
 classifier2 = GaussianNB()
 classifier2.fit(feature_array, target_variable)
 
+from sklearn.externals import joblib
+filename = 'finalized_model.sav'
+loaded_model = joblib.load(filename)
+loaded_model
+
 
 ############## prepearing the test data and predicting the names ###########
 
-
+# redacting the names and saving the files
 def get_entity_test(text):
     """Prints the entity inside of the text."""
     person_names = []
@@ -128,15 +124,20 @@ def get_entity_test(text):
     
     word=word_tokenize(text)
     word_count=len(word)
+            
     file=""
     file=text
     for name in person_names:
-        file=file.replace(name,len(name)*"█")
-        count=file.count("█")
+        for c in name:
+            if c ==" ":
+                x = name.split()
+                for i in range(len(x)):
+                    file=file.replace(x[i],len(x[i])*"█")
+        
     
-    
+    redacted_names = re.findall(r"\█+\s?\██\s?\█+\D█+", file)
     feature_list = []
-    for name in person_names:
+    for name in redacted_names:
         feature_dict = {}
         space_count = 0
         name_length = len(name)
@@ -144,44 +145,45 @@ def get_entity_test(text):
             if c ==" ":
                 space_count = space_count + 1
           
-        feature_dict = {'person_name': name,'name_length' : name_length,'spacing':space_count,'redacted_len': count, 'words_count': word_count}
+        feature_dict = {'person_name': name,'total_names': len(person_names), 'name_length' : name_length,'spacing':space_count, 'words_count': word_count}
 
         feature_list.append(feature_dict)
     
-    return feature_list
+    return feature_list,person_names
 
 
 def doextraction_test(glob_text):
     all_entities = []
+    all_names = []
     """Get all the files from the given glob and pass them to the extractor."""
-    #for thefile in glob.glob(glob_text):
-    for thefile in glob.glob('*.txt'):    
+    for thefile in glob.glob(glob_text):
+    #for thefile in glob.glob('*.txt'):    
         with io.open(thefile, 'r', encoding='utf-8') as fyl:
             text = fyl.read()
-            entites = get_entity_test(text)
+            entites,names = get_entity_test(text)
             for entity in entites:
                  all_entities.append(entity)
-                
+            for name in names:
+                all_names.append(names)
    
-    return all_entities     
+    return all_entities, all_names     
             
 
 feature_array_test = []
-actual_names = []
-full_features_test = doextraction_test('*.txt')
+
+full_features_test,actual_names = doextraction_test('C:\\Users\\dvsnv\\Desktop\\OU_Material\\Semester 2\\Text analytics\\test\\Pos\\*.txt')
 
 for i in full_features_test:
-    actual_names.append(i['person_name'])
     del i['person_name']
     feature_array_test.append(i)
+    
  
-actual_names = np.array(actual_names)  
 DV = DictVectorizer(sparse = False)  
 
     
 feature_array_test = DV.fit_transform(feature_array_test)  
 
-predicted_names = classifier.predict(feature_array_test)
+predicted_names = loaded_model.predict(feature_array_test)
 
 
 
