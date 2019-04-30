@@ -101,12 +101,6 @@ so now we have the features from our test set, we use DictVectorization again on
 ```
 predicted_names = loaded_model.predict(feature_array_test)
 ```
-
-
-5 . **status(db)**
-
-The status(db) function prints to standard out, a random row from the database
-
 ----
 How To run this 
 --
