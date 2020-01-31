@@ -9,9 +9,6 @@ As you can guess, discovering names is not easy. To discover the best names, we 
 link for the dataset: http://ai.stanford.edu/~amaas/data/sentiment/ 
 This is a data set of movie reviews from IMDB containing. The initial goal of the data set is to discover the sentiment of each review. For this project, we will only use the reviews for their textual content.
 
-----
-Project Source can viewed from  https://oudalab.github.io/textanalytics/projects/project2
-----
 -------------
 Author 
 ---
